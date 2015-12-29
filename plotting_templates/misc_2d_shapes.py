@@ -1,5 +1,10 @@
 import matplotlib.pyplot as plt
 import matplotlib.patches as mp
+from matplotlib.path import Path
+import matplotlib.patches as patches
+from matplotlib.patches import Arc
+import numpy as np
+
 
 
 def misc2d(ax):
@@ -38,8 +43,57 @@ def misc2d(ax):
     # Simple rectangle
     ax.add_patch(mp.Rectangle((0.6, 0.6), 0.2, 0.2, alpha=0.5))
 
+    # Simple polygon
+    verts = [
+    (0., 0.), # left, bottom
+    (0., .25), # left, top
+    (.25, 0.), # right, bottom
+    (0., 0.), # ignored
+    ]
+
+    codes = [Path.MOVETO,
+         Path.LINETO,
+         Path.LINETO,
+         Path.CLOSEPOLY,
+         ]
+
+    path = Path(verts, codes)
+    patch = patches.PathPatch(path, facecolor='orange', alpha=0.5, lw=2)
+    ax.add_patch(patch)
+
+    # Plots an angle.
+    starting_angle = 0.0
+    ending_angle = 230
+    angle_width, angle_height = 0.1, 0.1
+    angle_center = (0.5, 0.5)
+    p = Arc(angle_center, angle_width, angle_height, theta1=starting_angle, theta2=ending_angle)
+    ax.add_patch(p)
+
+    # Plots angle text.
+    ax.text(0.5, 0.54, r'$\theta$', fontsize=20, ha='center', va='bottom')
+    curved_line_with_arrow()
+    curved_line_with_arrow((0.15, 0.3), radius=0.2, ending_angle=np.deg2rad(223), arrow_pos=0.8, arrow_direction=1)
+
+def curved_line_with_arrow(center=(0.45, 0.25), radius=0.6, starting_angle=0.0, ending_angle=np.pi/3, arrow_pos=0.5,
+                           arrow_direction=1):
+    # Plots an angle.
+    p = Arc(center, radius, radius, theta1=starting_angle, theta2=np.rad2deg(ending_angle))
+    ax.add_patch(p)
+    midway = 0.5*radius*np.array([np.cos(ending_angle*arrow_pos), np.sin(ending_angle*arrow_pos)])
+    extra_angle=cmp(arrow_direction, 0)*np.pi/10
+    midway_after = 0.5*radius*np.array([np.cos((ending_angle+extra_angle)*arrow_pos),
+                                        np.sin((ending_angle+extra_angle)*arrow_pos)])
+    midway += np.array([center[0], center[1]])
+    midway_after += np.array([center[0], center[1]])
+    ax.add_patch(mp.FancyArrowPatch(midway, midway_after,
+                                    color='k',
+                                    lw=2,
+                                    arrowstyle='->',
+                                    mutation_scale=20))
+
 fig = plt.figure()
 ax = fig.add_subplot(111)
 misc2d(ax)
 plt.axis('off')
+plt.axis('equal')
 plt.show()
