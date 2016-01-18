@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as mp
 from mpl_toolkits.mplot3d import Axes3D, proj3d
 
-def add_arrow3d(ax, x=[0, 0], y=[0, 0], z=[0, 0], color='k'):
+def add_arrow3d(ax, x=[0, 0], y=[0, 0], z=[0, 0], color='k', arrowstyle='-|>', alpha=1.0):
     """
     Function that adds a 3D-arrow to an ax-object.
     x-, y-, and z-coordinates are given with [start, end]
@@ -28,8 +28,9 @@ def add_arrow3d(ax, x=[0, 0], y=[0, 0], z=[0, 0], color='k'):
     ax.add_artist(Arrow3D(x, y, z,
                           mutation_scale=20,
                           lw=1,
-                          arrowstyle='-|>',
-                          color=color))
+                          arrowstyle=arrowstyle,
+                          color=color,
+                          alpha=alpha))
 
 
 # fig = plt.figure()

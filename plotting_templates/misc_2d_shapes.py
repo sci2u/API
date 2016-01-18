@@ -77,7 +77,7 @@ def misc2d(ax):
 def curved_line_with_arrow(center=(0.45, 0.25), radius=0.6, starting_angle=0.0, ending_angle=np.pi/3, arrow_pos=0.5,
                            arrow_direction=1):
     # Plots an angle.
-    p = Arc(center, radius, radius, theta1=starting_angle, theta2=np.rad2deg(ending_angle))
+    p = Arc(center, radius, radius, theta1=np.rad2deg(starting_angle), theta2=np.rad2deg(ending_angle))
     ax.add_patch(p)
     midway = 0.5*radius*np.array([np.cos(ending_angle*arrow_pos), np.sin(ending_angle*arrow_pos)])
     extra_angle=cmp(arrow_direction, 0)*np.pi/10
